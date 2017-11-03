@@ -1,0 +1,16 @@
+{
+  "name": "rsg-react",
+  "version": "0.0.1-alpha0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/undead25/rsg-react.git"
+  },
+  "author": "undead25",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/undead25/rsg-react/issues"
+  },
+  "homepage": "https://github.com/undead25/rsg-react#readme"
+}
