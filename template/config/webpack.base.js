@@ -1,18 +1,17 @@
 'use strict';
+
 const autoprefixer = require('autoprefixer');
-const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const APP_COMMON_CONFIG = require('./app.common');
 
 module.exports = {
-  devtool: 'cheap-module-source-map',
   entry: [
-    '../src/index.jsx'
+    APP_COMMON_CONFIG.PATH.INDEX
   ],
   output: {
-    path: '../dist',
+    path: APP_COMMON_CONFIG.PATH.BUILD,
     pathinfo: true,
     filename: 'static/js/bundle.js',
     chunkFilename: 'static/js/[name].chunk.js',
@@ -20,14 +19,26 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
-
+    modules: [APP_COMMON_CONFIG.PATH.NODE]
+  },
+  module: {
+    strictExportPresence: true,
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        include: APP_COMMON_CONFIG.PATH.SRC,
+        loader: require.resolve('babel-loader'),
+        options: {
+          compact: true
+        },
+      },
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       inject: true,
-      template: '../index.html',
-      chunksSortMode: 'dependency',
-    }),
+      template: APP_COMMON_CONFIG.PATH.HTML
+    })
   ],
   node: {
     dgram: 'empty',
@@ -35,8 +46,5 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  },
-  performance: {
-    hints: false
   }
 }
