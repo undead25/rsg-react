@@ -4,7 +4,7 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const APP_COMMON_CONFIG = require('./app.common');
+const { PATH, ENV, SERVER, ANALYZER } = require('./app.common');
 
 module.exports = {
   /**
@@ -15,7 +15,7 @@ module.exports = {
   entry: [
     require.resolve('webpack-dev-server/client') + '?/',
     require.resolve('webpack/hot/dev-server'),
-    APP_COMMON_CONFIG.PATH.INDEX
+    PATH.INDEX
   ],
   /**
    * Tells webpack where to emit the bundles it creates and how to name
@@ -23,7 +23,7 @@ module.exports = {
    * @see https://webpack.js.org/configuration/output/
    */
   output: {
-    path: APP_COMMON_CONFIG.PATH.BUILD,
+    path: PATH.BUILD,
     pathinfo: true,
     filename: 'static/js/bundle.js',
     chunkFilename: 'static/js/[name].chunk.js',
@@ -35,7 +35,7 @@ module.exports = {
    */
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
-    modules: [APP_COMMON_CONFIG.PATH.NODE]
+    modules: [PATH.NODE]
   },
   /**
    * How the different types of modules within a project will be treated.
@@ -46,12 +46,59 @@ module.exports = {
     strictExportPresence: true,
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        include: APP_COMMON_CONFIG.PATH.SRC,
-        loader: require.resolve('babel-loader'),
-        options: {
-          compact: true
-        }
+        oneOf: [
+          {
+            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+            loader: require.resolve('url-loader'),
+            options: {
+              limit: 10000,
+              name: 'static/media/[name].[hash:8].[ext]',
+            }
+          },
+          {
+            test: /\.(js|jsx)$/,
+            include: PATH.SRC,
+            loader: require.resolve('babel-loader'),
+            options: {
+              compact: true
+            }
+          },
+          {
+            test: /\.css$/,
+            use: [
+              require.resolve('style-loader'),
+              {
+                loader: require.resolve('css-loader'),
+                options: { importLoaders: 1 },
+              },
+              {
+                loader: require.resolve('postcss-loader'),
+                options: {
+                  ident: 'postcss',
+                  plugins: () => [
+                    require('postcss-flexbugs-fixes'),                    
+                    autoprefixer({
+                      browsers: [
+                        '>1%',
+                        'last 4 versions',
+                        'Firefox ESR',
+                        'not ie < 9'
+                      ],
+                      flexbox: 'no-2009',
+                    }),
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            exclude: [/\.js$/, /\.html$/, /\.json$/],
+            loader: require.resolve('file-loader'),
+            options: {
+              name: 'static/media/[name].[hash:8].[ext]'
+            }
+          }
+        ]
       }
     ]
   },
@@ -64,7 +111,7 @@ module.exports = {
     // @see https://github.com/jantimon/html-webpack-plugin
     new HtmlWebpackPlugin({
       inject: true,
-      template: APP_COMMON_CONFIG.PATH.HTML
+      template: PATH.HTML
     })
   ],
   /**

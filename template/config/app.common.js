@@ -20,7 +20,11 @@ module.exports = {
   },
   SERVER: {
     PROTOCOL: process.env.HTTPS === 'true' ? 'https' : 'http',
-    HOST: 'localhost',
+    HOST: ip.address() || '0.0.0.0',
     PORT: 3000
+  },
+  ANALYZER: {
+    OPEN: true,
+    PORT: 8888
   }
 }

@@ -1,4 +1,0 @@
-plugins:
-  postcss-plugin: {
-    autoprefixer: {}
-  }
