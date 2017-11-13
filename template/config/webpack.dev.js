@@ -3,9 +3,9 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const DashboardPlugin = require('webpack-dashboard/plugin');
 
 const { PATH, ENV, SERVER, ANALYZER } = require('./app.common');
 const WEBPACK_BASE_CONFIG = require('./webpack.base');
@@ -31,8 +31,9 @@ const WEBPACK_DEV_CONFIG = {
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     new CaseSensitivePathsPlugin(),
-    new BundleAnalyzerPlugin({ analyzerPort: ANALYZER.PORT, openAnalyzer: ANALYZER.OPEN }),
-    new FriendlyErrorsPlugin()
+    // A CLI dashboard for webpack dev server
+    // @see https://github.com/FormidableLabs/webpack-dashboard
+    new DashboardPlugin()
   ],
   performance: {
     hints: false

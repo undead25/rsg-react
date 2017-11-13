@@ -2,14 +2,17 @@ import React from 'react';
 import Button from './button';
 
 import './app.css';
+import './app.scss';
 
 export default class App extends React.Component {
   render() {
     return (
-      <h1>
-        Welcome To React!!!!
-        <Button>Confirm</Button>
-      </h1>
+      <div>
+        <h1>Welcome To React!!</h1>
+        <div className="a">
+          <Button>Confirm</Button>
+        </div>
+      </div>
     );
   }
 }

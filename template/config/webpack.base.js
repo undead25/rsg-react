@@ -1,10 +1,9 @@
 'use strict';
 
-const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const { PATH, ENV, SERVER, ANALYZER } = require('./app.common');
+const { PATH, ENV, SERVER } = require('./app.common');
 
 module.exports = {
   /**
@@ -45,77 +44,44 @@ module.exports = {
     // Makes missing exports an error instead of warning
     strictExportPresence: true,
     rules: [
+      // @if-ts-start
       {
         test: /\.ts[x]?$/,
-        enforce: 'pre',
         exclude: /(node_modules)/,
+        include: PATH.SRC,
         loader: 'babel-loader!awesome-typescript-loader'
       },
+      // @if-ts-end
       {
         test: /\.js[x]?$/,
-        enforce: 'pre',
         exclude: /(node_modules)/,
-        use: [
-          {
-            loader: 'babel-loader',
-          },
-        ],
+        include: PATH.SRC,
+        loader: 'babel-loader?cacheDirectory=true'
       },
-      // {
-        // oneOf: [
-          {
-            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-            loader: require.resolve('url-loader'),
-            options: {
-              limit: 10000,
-              name: 'static/media/[name].[hash:8].[ext]',
-            }
-          },
-          // {
-          //   test: /\.(js|jsx)$/,
-          //   include: PATH.SRC,
-          //   loader: 'babel-loader',
-          //   options: {
-          //     compact: true
-          //   }
-          // },
-          {
-            test: /\.css$/,
-            use: [
-              require.resolve('style-loader'),
-              {
-                loader: require.resolve('css-loader'),
-                options: { importLoaders: 1 },
-              },
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  ident: 'postcss',
-                  plugins: () => [
-                    require('postcss-flexbugs-fixes'),
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9'
-                      ],
-                      flexbox: 'no-2009',
-                    }),
-                  ]
-                }
-              }
-            ]
-          },
-          // {
-          //   exclude: [/\.js$/, /\.html$/, /\.json$/],
-          //   loader: require.resolve('file-loader'),
-          //   options: {
-          //     name: 'static/media/[name].[hash:8].[ext]'
-          //   }
-          // }
-        // ]
-      // }
+      // @if-sass-start
+      {
+        test: /\.scss$/,
+        loader: 'style-loader!css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap'
+      },
+      // @if-sass-end
+      // @if-less-start
+      {
+        test: /\.less$/,
+        loader: 'style-loader!css-loader?sourceMap!postcss-loader?sourceMap!less-loader?sourceMap'
+      },
+      // @if-less-end
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader?importLoaders=1&sourceMap!postcss-loader?sourceMap'
+      },
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'static/media/[name].[hash:8].[ext]',
+        }
+      }
     ]
   },
   /**
