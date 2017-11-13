@@ -1,6 +1,7 @@
 {
-  "name": "test",
+  "name": "{name}",
   "version": "1.0.0",
+  "author": "{author}",
   "private": true,
   "scripts": {
     "prestart": "cross-env NODE_ENV=development",

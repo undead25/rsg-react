@@ -34,7 +34,7 @@ module.exports = {
    * @see https://webpack.js.org/configuration/resolve/
    */
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     modules: [PATH.NODE]
   },
   /**
@@ -46,7 +46,23 @@ module.exports = {
     strictExportPresence: true,
     rules: [
       {
-        oneOf: [
+        test: /\.ts[x]?$/,
+        enforce: 'pre',
+        exclude: /(node_modules)/,
+        loader: 'babel-loader!awesome-typescript-loader'
+      },
+      {
+        test: /\.js[x]?$/,
+        enforce: 'pre',
+        exclude: /(node_modules)/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
+      },
+      // {
+        // oneOf: [
           {
             test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
             loader: require.resolve('url-loader'),
@@ -55,14 +71,14 @@ module.exports = {
               name: 'static/media/[name].[hash:8].[ext]',
             }
           },
-          {
-            test: /\.(js|jsx)$/,
-            include: PATH.SRC,
-            loader: require.resolve('babel-loader'),
-            options: {
-              compact: true
-            }
-          },
+          // {
+          //   test: /\.(js|jsx)$/,
+          //   include: PATH.SRC,
+          //   loader: 'babel-loader',
+          //   options: {
+          //     compact: true
+          //   }
+          // },
           {
             test: /\.css$/,
             use: [
@@ -76,7 +92,7 @@ module.exports = {
                 options: {
                   ident: 'postcss',
                   plugins: () => [
-                    require('postcss-flexbugs-fixes'),                    
+                    require('postcss-flexbugs-fixes'),
                     autoprefixer({
                       browsers: [
                         '>1%',
@@ -91,15 +107,15 @@ module.exports = {
               }
             ]
           },
-          {
-            exclude: [/\.js$/, /\.html$/, /\.json$/],
-            loader: require.resolve('file-loader'),
-            options: {
-              name: 'static/media/[name].[hash:8].[ext]'
-            }
-          }
-        ]
-      }
+          // {
+          //   exclude: [/\.js$/, /\.html$/, /\.json$/],
+          //   loader: require.resolve('file-loader'),
+          //   options: {
+          //     name: 'static/media/[name].[hash:8].[ext]'
+          //   }
+          // }
+        // ]
+      // }
     ]
   },
   /**
