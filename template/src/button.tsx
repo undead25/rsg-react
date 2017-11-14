@@ -2,8 +2,15 @@ import * as React from 'react';
 
 import './button.less';
 
-export default function Button(props) {
+interface ButtonProps {
+  children: React.ReactChild;
+  style: Object;
+}
+
+export default function Button(props: ButtonProps) {
+  const limit = '123';
+
   return (
-    <button>{props.children}</button>
+    <button style={props.style} className="c">{props.children}</button>
   );
 }

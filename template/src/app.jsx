@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './button';
+import Button from './button.tsx';
 
 import './app.css';
 import './app.scss';
