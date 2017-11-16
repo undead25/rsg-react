@@ -1,9 +1,6 @@
-'use strict';
-
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const { PATH, ENV, SERVER } = require('./app.common');
+const { PATH } = require('./app.common');
 
 module.exports = {
   /**
@@ -12,7 +9,7 @@ module.exports = {
    * @see https://webpack.js.org/configuration/entry-context/
    */
   entry: [
-    require.resolve('webpack-dev-server/client') + '?/',
+    `${require.resolve('webpack-dev-server/client')}?/`,
     require.resolve('webpack/hot/dev-server'),
     PATH.INDEX
   ],
@@ -108,4 +105,4 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty'
   }
-}
+};

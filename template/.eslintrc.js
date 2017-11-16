@@ -14,6 +14,7 @@ module.exports = {
     'react'
   ],
   rules: {
-    'comma-dangle': 0
+    'comma-dangle': 0,
+    'import/no-extraneous-dependencies': 0
   }
 }

@@ -12,5 +12,13 @@
   "bugs": {
     "url": "https://github.com/undead25/rsg-react/issues"
   },
-  "homepage": "https://github.com/undead25/rsg-react#readme"
+  "homepage": "https://github.com/undead25/rsg-react#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^2.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
