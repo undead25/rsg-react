@@ -1,6 +1,4 @@
-'use strict';
 const path = require('path');
-const ip = require('ip');
 
 const resolve = relativePath => path.resolve(__dirname, '..', relativePath);
 
@@ -20,7 +18,11 @@ module.exports = {
   },
   SERVER: {
     PROTOCOL: process.env.HTTPS === 'true' ? 'https' : 'http',
-    HOST: ip.address() || '0.0.0.0',
+    HOST: process.env.HOST || '0.0.0.0',
     PORT: 3000
+  },
+  ANALYZER: {
+    PORT: 3001,
+    OPEN: false
   }
-}
+};

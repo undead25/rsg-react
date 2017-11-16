@@ -30,7 +30,8 @@ module.exports = {
    * @see https://webpack.js.org/configuration/resolve/
    */
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    // extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    extensions: ['.js', '.jsx', '.json'],
     modules: [PATH.NODE]
   },
   /**
@@ -41,38 +42,32 @@ module.exports = {
     // Makes missing exports an error instead of warning
     strictExportPresence: true,
     rules: [
-      // @if-ts-start
       {
         test: /\.ts[x]?$/,
         exclude: /(node_modules)/,
         include: PATH.SRC,
         loader: 'babel-loader!awesome-typescript-loader'
       },
-      // @if-ts-end
       {
         test: /\.js[x]?$/,
         exclude: /(node_modules)/,
         include: PATH.SRC,
         loader: 'babel-loader?cacheDirectory=true'
       },
-      // @if-sass-start
       {
         test: /\.scss$/,
         loader: 'style-loader!css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap'
       },
-      // @if-sass-end
-      // @if-less-start
       {
         test: /\.less$/,
         loader: 'style-loader!css-loader?sourceMap!postcss-loader?sourceMap!less-loader?sourceMap'
       },
-      // @if-less-end
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader?importLoaders=1&sourceMap!postcss-loader?sourceMap'
       },
       {
-        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        test: /\.(png|gif|jpg|svg)$/,
         loader: 'url-loader',
         options: {
           limit: 10000,

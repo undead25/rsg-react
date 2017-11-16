@@ -15,6 +15,7 @@ module.exports = {
   ],
   rules: {
     'comma-dangle': 0,
-    'import/no-extraneous-dependencies': 0
+    'import/no-extraneous-dependencies': 0,
+    'object-curly-newline': 0
   }
 }

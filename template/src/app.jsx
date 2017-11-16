@@ -1,18 +1,20 @@
 import React from 'react';
-import Button from './button.tsx';
 
+import logo from './logo.svg';
+// import './app.scss';
+// import './app.less';
 import './app.css';
-import './app.scss';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Welcome To React!!</h1>
-        <div className="a">
-          <Button>Confirm</Button>
-        </div>
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div className="app">
+    <header className="app-header">
+      <img src={logo} alt="logo" className="app-logo" />
+      <h1 className="app-title">Welcome to React</h1>
+    </header>
+    <p className="app-intro">
+      To get started, edit <code>src/app.js</code> and save to reload.
+    </p>
+  </div>
+);
+
+export default App;
