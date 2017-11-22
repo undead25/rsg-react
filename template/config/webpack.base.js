@@ -30,8 +30,7 @@ module.exports = {
    * @see https://webpack.js.org/configuration/resolve/
    */
   resolve: {
-    // extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: [{{#if typescript}}'.ts', '.tsx', {{/if}}'.js', '.jsx', '.json'],
     modules: [PATH.NODE]
   },
   /**
@@ -42,26 +41,32 @@ module.exports = {
     // Makes missing exports an error instead of warning
     strictExportPresence: true,
     rules: [
+      {{#if typescript}}
       {
         test: /\.ts[x]?$/,
         exclude: /(node_modules)/,
         include: PATH.SRC,
         loader: 'babel-loader!awesome-typescript-loader'
       },
+      {{/if}}
       {
         test: /\.js[x]?$/,
         exclude: /(node_modules)/,
         include: PATH.SRC,
         loader: 'babel-loader?cacheDirectory=true'
       },
+      {{#if sass}}
       {
         test: /\.scss$/,
         loader: 'style-loader!css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap'
       },
+      {{/if}}
+      {{#if less}}
       {
         test: /\.less$/,
         loader: 'style-loader!css-loader?sourceMap!postcss-loader?sourceMap!less-loader?sourceMap'
       },
+      {{/if}}
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader?importLoaders=1&sourceMap!postcss-loader?sourceMap'

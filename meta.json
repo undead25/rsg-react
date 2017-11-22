@@ -1,0 +1,42 @@
+{
+  "prompts": {
+    "name": {
+      "type": "input",
+      "message": "Project name"
+    },
+    "author": {
+      "type": "input",
+      "message": "Author name"
+    },
+    "description": {
+      "type": "input",
+      "message": "Project description"
+    },
+    "typescript": {
+      "type": "confirm",
+      "message": "Using TypeScript?"
+    },
+    "sass": {
+      "type": "confirm",
+      "message": "Using Sass for style?"
+    },
+    "less": {
+      "type": "confirm",
+      "message": "Using Less for style?"
+    },
+    "stylelint": {
+      "type": "confirm",
+      "message": "Using linter for style?"
+    }
+  },
+  "filters": {
+    "template/.eslintrc.js": "!typescript",
+    "template/tslint.json": "typescript",
+    "template/tsconfig.json": "typescript",
+    "template/src/app.tsx": "typescript",
+    "template/src/index.tsx": "typescript",
+    "template/src/app.less": "less",
+    "template/src/app.scss": "sass",
+    "template/.stylelintrc": "stylelint"
+  }
+}

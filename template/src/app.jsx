@@ -1,9 +1,13 @@
 import React from 'react';
 
 import logo from './logo.svg';
-// import './app.scss';
-// import './app.less';
+{{#if sass}}
+import './app.scss';
+{{else if less}}
+import './app.less';
+{{else}}
 import './app.css';
+{{/if}}
 
 const App = () => (
   <div className="app">
