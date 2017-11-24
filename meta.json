@@ -29,14 +29,15 @@
       "message": "Using linter for style?"
     }
   },
+  "template": "template",
   "filters": {
-    "template/.eslintrc.js": "!typescript",
-    "template/tslint.json": "typescript",
-    "template/tsconfig.json": "typescript",
-    "template/src/app.tsx": "typescript",
-    "template/src/index.tsx": "typescript",
-    "template/src/app.less": "less",
-    "template/src/app.scss": "sass",
-    "template/.stylelintrc": "stylelint"
+    ".eslintrc.js": "!typescript",
+    "tslint.json": "typescript",
+    "tsconfig.json": "typescript",
+    "src/app.tsx": "typescript",
+    "src/index.tsx": "typescript",
+    "src/app.less": "less",
+    "src/app.scss": "sass",
+    ".stylelintrc": "stylelint"
   }
 }
