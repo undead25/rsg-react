@@ -16,13 +16,14 @@
       "type": "confirm",
       "message": "Using TypeScript?"
     },
-    "sass": {
+    "precss": {
       "type": "confirm",
-      "message": "Using Sass for style?"
+      "message": "Using css pre-processor?"
     },
-    "less": {
-      "type": "confirm",
-      "message": "Using Less for style?"
+    "preprocessor": {
+      "type": "list",
+      "message": "Please select a css pre-processor",
+      "choices": ["sass", "less"]
     },
     "stylelint": {
       "type": "confirm",
@@ -35,9 +36,12 @@
     "tslint.json": "typescript",
     "tsconfig.json": "typescript",
     "src/app.tsx": "typescript",
+    "src/app.jsx": "!typescript",
     "src/index.tsx": "typescript",
-    "src/app.less": "less",
-    "src/app.scss": "sass",
+    "src/index.jsx": "!typescript",
+    "src/app.css": "!precss",
+    "src/app.less": "precss && preprocessor === 'less'",
+    "src/app.scss": "precss && preprocessor === 'sass'",
     ".stylelintrc": "stylelint"
   }
 }

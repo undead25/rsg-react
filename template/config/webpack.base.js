@@ -55,18 +55,18 @@ module.exports = {
         include: PATH.SRC,
         loader: 'babel-loader?cacheDirectory=true'
       },
-      {{#if sass}}
+      {{#if_eq preprocessor 'sass'}}
       {
         test: /\.scss$/,
         loader: 'style-loader!css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap'
       },
-      {{/if}}
-      {{#if less}}
+      {{/if_eq}}
+      {{#if_eq preprocessor 'less'}}
       {
         test: /\.less$/,
         loader: 'style-loader!css-loader?sourceMap!postcss-loader?sourceMap!less-loader?sourceMap'
       },
-      {{/if}}
+      {{/if_eq}}
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader?importLoaders=1&sourceMap!postcss-loader?sourceMap'
