@@ -30,7 +30,7 @@
       "message": "Using linter for style?"
     }
   },
-  "template": "template",
+  "template": "rsg-react/template",
   "filters": {
     ".eslintrc.js": "!typescript",
     "tslint.json": "typescript",
