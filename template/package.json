@@ -14,8 +14,10 @@
     "react-router": "^4.2.0"
   },
   "devDependencies": {
+    {{#if typescript}}    
     "@types/react": "^16.0.23",
     "@types/react-dom": "^16.0.3",
+    {{/if}}
     "autoprefixer": "^7.1.6",
     {{#if typescript}}
     "awesome-typescript-loader": "^3.3.0",
