@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const { PATH, ENV, SERVER, ANALYZER } = require('./app.common');
 const WEBPACK_BASE_CONFIG = require('./webpack.base');
@@ -13,6 +14,16 @@ const { PROTOCOL, HOST, PORT } = SERVER;
 
 const WEBPACK_DEV_CONFIG = {
   devtool: 'cheap-module-source-map',
+  /**
+   * An entry point indicates which module webpack should use to begin
+   * building out its internal dependency graph.
+   * @see https://webpack.js.org/configuration/entry-context/
+   */
+  entry: [
+    `${require.resolve('webpack-dev-server/client')}?/`,
+    require.resolve('webpack/hot/dev-server'),
+    PATH.INDEX
+  ],
   output: {
     path: PATH.BUILD,
     filename: 'static/js/[name].[hash:8].js',
@@ -38,6 +49,9 @@ const WEBPACK_DEV_CONFIG = {
     new BundleAnalyzerPlugin({
       analyzerPort: ANALYZER.PORT,
       openAnalyzer: ANALYZER.OPEN
+    }),
+    new ExtractTextPlugin({
+      filename: 'static/css/[name].[contenthash:8].css'
     })
   ],
   performance: {

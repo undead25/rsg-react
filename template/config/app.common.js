@@ -24,5 +24,9 @@ module.exports = {
   ANALYZER: {
     PORT: 3001,
     OPEN: false
+  },
+  SOURCEMAP: {
+    DEV: true,
+    PROD: false
   }
 };

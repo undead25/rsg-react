@@ -1,18 +1,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const { PATH } = require('./app.common');
 
 module.exports = {
-  /**
-   * An entry point indicates which module webpack should use to begin
-   * building out its internal dependency graph. 
-   * @see https://webpack.js.org/configuration/entry-context/
-   */
-  entry: [
-    `${require.resolve('webpack-dev-server/client')}?/`,
-    require.resolve('webpack/hot/dev-server'),
-    PATH.INDEX
-  ],
   /**
    * Tells webpack where to emit the bundles it creates and how to name
    * these files.
@@ -21,8 +12,9 @@ module.exports = {
   output: {
     path: PATH.BUILD,
     pathinfo: true,
-    filename: 'static/js/bundle.js',
-    chunkFilename: 'static/js/[name].chunk.js',
+    filename: 'static/js/[name].[hash:8].js',
+    chunkFilename: 'static/js/[name].[hash:8].chunk.js',
+    sourceMapFilename: 'static/js/[name].[hash:8].map',
     publicPath: '/'
   },
   /**
@@ -58,18 +50,27 @@ module.exports = {
       {{#if_eq preprocessor 'sass'}}
       {
         test: /\.scss$/,
-        loader: 'style-loader!css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap'
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap'
+        })
       },
       {{/if_eq}}
       {{#if_eq preprocessor 'less'}}
       {
         test: /\.less$/,
-        loader: 'style-loader!css-loader?sourceMap!postcss-loader?sourceMap!less-loader?sourceMap'
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader?sourceMap!postcss-loader?sourceMap!less-loader?sourceMap'
+        })
       },
       {{/if_eq}}
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader?importLoaders=1&sourceMap!postcss-loader?sourceMap'
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader?importLoaders=1&sourceMap!postcss-loader?sourceMap'
+        })
       },
       {
         test: /\.(png|gif|jpg|svg)$/,
