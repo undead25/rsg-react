@@ -1,13 +1,15 @@
 import React from 'react';
 
 import logo from './logo.svg';
-{{#if sass}}
+{{#if_eq preprocessor 'sass'}}
 import './app.scss';
-{{else if less}}
-import './app.less';
-{{else}}
-import './app.css';
 {{/if}}
+{{#if_eq preprocessor 'less'}}
+import './app.less';
+{{/if}}
+{{#unless precss}}
+import './app.css';
+{{/unless}}
 
 const App = () => (
   <div className="app">
