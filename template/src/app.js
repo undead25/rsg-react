@@ -3,10 +3,10 @@ import React from 'react';
 import logo from './logo.svg';
 {{#if_eq preprocessor 'sass'}}
 import './app.scss';
-{{/if}}
+{{/if_eq}}
 {{#if_eq preprocessor 'less'}}
 import './app.less';
-{{/if}}
+{{/if_eq}}
 {{#unless precss}}
 import './app.css';
 {{/unless}}
