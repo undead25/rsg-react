@@ -1,6 +1,8 @@
 const path = require('path');
+const fs = require('fs');
 
-const resolve = relativePath => path.resolve(__dirname, '..', relativePath);
+// Make sure any symlinks in the project folder are resolved
+const resolve = relativePath => path.resolve(fs.realpathSync(process.cwd()), relativePath);
 
 module.exports = {
   ENV: {
