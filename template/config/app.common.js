@@ -14,7 +14,12 @@ module.exports = {
     BUILD: resolve('dist'),
     HTML: resolve('index.html'),
     NODE: resolve('node_modules'),
-    INDEX: resolve('src/index.jsx')
+    PUBLIC: '/',
+    {{#if typescript}}
+    INDEX: resolve('src/index.tsx')
+    {{else}}
+    INDEX: resolve('src/index.js')
+    {{/if}}
   },
   SERVER: {
     PROTOCOL: process.env.HTTPS === 'true' ? 'https' : 'http',

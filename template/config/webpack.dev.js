@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const { PATH, ENV, SERVER, ANALYZER } = require('./app.common');
 const WEBPACK_BASE_CONFIG = require('./webpack.base');
@@ -13,6 +12,10 @@ const WEBPACK_BASE_CONFIG = require('./webpack.base');
 const { PROTOCOL, HOST, PORT } = SERVER;
 
 const WEBPACK_DEV_CONFIG = {
+  /**
+   * Choose a style of source mapping to enhance the debugging process.
+   * @see https://webpack.js.org/configuration/devtool/#devtool
+   */
   devtool: 'cheap-module-source-map',
   /**
    * An entry point indicates which module webpack should use to begin
@@ -24,11 +27,15 @@ const WEBPACK_DEV_CONFIG = {
     require.resolve('webpack/hot/dev-server'),
     PATH.INDEX
   ],
+  /**
+   * How and where webpack should output your bundles.
+   * @see https://webpack.js.org/configuration/output/
+   */
   output: {
     path: PATH.BUILD,
-    filename: 'static/js/[name].[hash:8].js',
-    chunkFilename: 'static/js/[name].[hash:8].chunk.js',
-    publicPath: '/',
+    filename: 'static/js/bundle.js',
+    chunkFilename: 'static/js/[name].chunk.js',
+    publicPath: PATH.PUBLIC,
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -43,17 +50,18 @@ const WEBPACK_DEV_CONFIG = {
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     new CaseSensitivePathsPlugin(),
-    // https://github.com/geowarin/friendly-errors-webpack-plugin
+    // See https://github.com/geowarin/friendly-errors-webpack-plugin
     new FriendlyErrorsPlugin(),
-    // https://github.com/th0r/webpack-bundle-analyzer
+    // See https://github.com/th0r/webpack-bundle-analyzer
     new BundleAnalyzerPlugin({
       analyzerPort: ANALYZER.PORT,
       openAnalyzer: ANALYZER.OPEN
-    }),
-    new ExtractTextPlugin({
-      filename: 'static/css/[name].[contenthash:8].css'
     })
   ],
+  /**
+   * Turn off performance hints for development.
+   * @see https://webpack.js.org/configuration/performance/
+   */
   performance: {
     hints: false
   },
@@ -69,15 +77,21 @@ const WEBPACK_DEV_CONFIG = {
     contentBase: PATH.BUILD,
     // Prevent webpack's own logs shown in console.
     clientLogLevel: 'none',
+    // Enable full page reload if file chages
     watchContentBase: true,
     // Enable webpack's Hot Module Replacement feature
     hot: true,
-    publicPath: '/',
+    // We need to access the bundle file
+    publicPath: PATH.PUBLIC,
+    // We do not need comply messages
     quiet: true,
+    // We do not watch files in node_modules for saving CPU and memory
     watchOptions: {
       ignored: /node_modules/,
     },
+    // We have used FriendlyErrorsPlugin instead
     overlay: false,
+    // We need dot url if we have url like '/xxx.com'
     historyApiFallback: {
       disableDotRule: true
     },
@@ -85,7 +99,9 @@ const WEBPACK_DEV_CONFIG = {
     https: PROTOCOL === 'https',
     // Specify a host to use
     host: HOST,
+    // Specify a port to use
     port: PORT,
+    // Open browser after server start
     after() {
       opn(`${PROTOCOL}://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}`);
     }
@@ -93,6 +109,5 @@ const WEBPACK_DEV_CONFIG = {
 };
 
 module.exports = merge.strategy({
-  output: 'replace',
-  plugins: 'replace'
+  output: 'replace'
 })(WEBPACK_BASE_CONFIG, WEBPACK_DEV_CONFIG);

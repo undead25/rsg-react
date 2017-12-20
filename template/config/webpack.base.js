@@ -1,12 +1,8 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 const { PATH } = require('./app.common');
 
 module.exports = {
   /**
-   * Tells webpack where to emit the bundles it creates and how to name
-   * these files.
+   * How and where webpack should output your bundles.
    * @see https://webpack.js.org/configuration/output/
    */
   output: {
@@ -15,7 +11,7 @@ module.exports = {
     filename: 'static/js/[name].[hash:8].js',
     chunkFilename: 'static/js/[name].[hash:8].chunk.js',
     sourceMapFilename: 'static/js/[name].[hash:8].map',
-    publicPath: '/'
+    publicPath: PATH.PUBLIC
   },
   /**
    * How modules are resolved
@@ -50,27 +46,18 @@ module.exports = {
       {{#if_eq preprocessor 'sass'}}
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap'
-        })
+        loader: 'style-loader!css-loaderimportLoaders=1!postcss-loader!sass-loader'
       },
       {{/if_eq}}
       {{#if_eq preprocessor 'less'}}
       {
         test: /\.less$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader?sourceMap!postcss-loader?sourceMap!less-loader?sourceMap'
-        })
+        loader: 'style-loader!css-loader?importLoaders=1!postcss-loader!less-loader'
       },
       {{/if_eq}}
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader?importLoaders=1&sourceMap!postcss-loader?sourceMap'
-        })
+        loader: 'style-loader!css-loader?importLoaders=1!postcss-loader'
       },
       {
         test: /\.(png|gif|jpg|svg)$/,
@@ -82,18 +69,6 @@ module.exports = {
       }
     ]
   },
-  /**
-   * Customize the webpack build process
-   * @see https://webpack.js.org/configuration/plugins/
-   */
-  plugins: [
-    // Generates an `index.html` file with the <script> injected.
-    // @see https://github.com/jantimon/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: PATH.HTML
-    })
-  ],
   /**
    * Some libraries import Node modules but don't use them in the browser.
    * Tell Webpack to provide empty mocks for them so importing them works.
