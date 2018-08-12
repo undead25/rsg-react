@@ -46,7 +46,7 @@ module.exports = {
       {{#if_eq preprocessor 'sass'}}
       {
         test: /\.scss$/,
-        loader: 'style-loader!css-loaderimportLoaders=1!postcss-loader!sass-loader'
+        loader: 'style-loader!css-loader?importLoaders=1!postcss-loader!sass-loader'
       },
       {{/if_eq}}
       {{#if_eq preprocessor 'less'}}
